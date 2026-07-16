@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Telegram nik kombinator</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: #38bdf8;
+      --brand-2: #0ea5e9;
+      --ok: #22c55e;
+      --sale: #f59e0b;
+      --taken: #ef4444;
+      --line: #334155;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .35);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, .22), transparent 34rem), var(--bg);
+    }
+
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0; }
+    .hero { display: grid; gap: 12px; margin-bottom: 24px; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 48px); letter-spacing: -.04em; }
+    p { color: var(--muted); line-height: 1.65; margin: 0; }
+    .notice {
+      border: 1px solid rgba(56, 189, 248, .35);
+      background: rgba(14, 165, 233, .09);
+      color: #bae6fd;
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .grid { display: grid; grid-template-columns: 390px 1fr; gap: 18px; align-items: start; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden; }
+    .card h2 { margin: 0; padding: 18px 20px; border-bottom: 1px solid var(--line); font-size: 18px; }
+    .body { padding: 18px 20px; display: grid; gap: 16px; }
+    label { display: grid; gap: 8px; color: #cbd5e1; font-weight: 650; font-size: 14px; }
+    input, select, textarea {
+      width: 100%; border: 1px solid var(--line); background: rgba(15, 23, 42, .8); color: var(--text);
+      border-radius: 12px; padding: 12px 13px; outline: none; font: inherit;
+    }
+    textarea { min-height: 92px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(56, 189, 248, .15); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+    button {
+      border: 0; cursor: pointer; border-radius: 12px; padding: 12px 14px; color: white; font-weight: 800;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 10px 24px rgba(14, 165, 233, .22);
+    }
+    button.secondary { background: var(--panel-2); box-shadow: none; border: 1px solid var(--line); }
+    button.danger { background: #dc2626; box-shadow: none; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .stat { background: rgba(15, 23, 42, .72); border: 1px solid var(--line); border-radius: 16px; padding: 13px; }
+    .stat b { display: block; font-size: 24px; margin-bottom: 3px; }
+    .stat span { color: var(--muted); font-size: 12px; }
+    .ok { color: var(--ok); } .sale { color: var(--sale); } .taken { color: var(--taken); }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
+    th { color: #cbd5e1; background: rgba(15, 23, 42, .65); position: sticky; top: 0; }
+    tbody tr:hover { background: rgba(255,255,255,.03); }
+    .tablebox { max-height: 560px; overflow: auto; }
+    .pill { border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 800; display: inline-flex; }
+    .pill.ok { background: rgba(34, 197, 94, .12); }
+    .pill.sale { background: rgba(245, 158, 11, .13); }
+    .pill.taken { background: rgba(239, 68, 68, .13); }
+    .small { font-size: 12px; color: var(--muted); }
+    .progress { height: 10px; background: #0b1220; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+    .bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--brand), var(--ok)); transition: width .2s ease; }
+
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .stats { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Telegram nik kombinator</h1>
+      <p>26 ta lotin harfi va 10 ta raqamdan 5 belgili niklar yasaydi: 5 harf, 4 harf + 1 son, 3 harf + 2 son va hokazo. Natijani TXT qilib yuklab olish yoki Bot API orqali Telegram akkauntingizga yuborish mumkin.</p>
+      <div class="notice">Eslatma: faqat HTML/JS ichida Telegram API ID/API HASH bilan haqiqiy username tekshirish xavfsiz emas va brauzerda MTProto/CORS sababli to'g'ridan-to'g'ri ishlamaydi. Shu sahifa kombinatsiyalarni yaratadi; haqiqiy tekshiruv uchun o'zingizning server endpointingizni ulang yoki CSV/TXT natijani import qiling.</div>
+    </section>
+
+    <section class="grid">
+      <aside class="card">
+        <h2>Sozlamalar</h2>
+        <div class="body">
+          <label>Harf alifbosi
+            <input id="letters" value="abcdefghijklmnopqrstuvwxyz" />
+          </label>
+          <label>Raqamlar
+            <input id="digits" value="0123456789" />
+          </label>
+          <div class="row">
+            <label>Uzunlik
+              <input id="length" type="number" min="1" max="8" value="5" />
+            </label>
+            <label>Ko'rsatish limiti
+              <input id="limit" type="number" min="1" value="5000" />
+            </label>
+          </div>
+          <label>Andoza
+            <select id="pattern">
+              <option value="LLLLL">5 ta harf</option>
+              <option value="LLLLD">4 ta harf + 1 ta son</option>
+              <option value="LLLDD">3 ta harf + 2 ta son</option>
+              <option value="LLDDD">2 ta harf + 3 ta son</option>
+              <option value="LDDDD">1 ta harf + 4 ta son</option>
+              <option value="ALL5">Barcha 5 belgili nisbatlar</option>
+              <option value="CUSTOM">Maxsus andoza</option>
+            </select>
+          </label>
+          <label>Maxsus andoza: L = harf, D = son
+            <input id="customPattern" placeholder="Masalan: LLDLD" />
+          </label>
+          <label>Boshlanish prefiksi (ixtiyoriy)
+            <input id="prefix" placeholder="Masalan: uz" />
+          </label>
+          <label>Server tekshiruv endpointi (ixtiyoriy)
+            <input id="endpoint" placeholder="https://example.com/check?username={username}" />
+            <span class="small">Endpoint JSON qaytarsa yaxshi: {"status":"free|sale|taken"}. Bo'sh qoldirilsa demo tasnif ishlaydi.</span>
+          </label>
+          <div class="buttons">
+            <button id="generateBtn">Kombinatsiya yaratish</button>
+            <button id="checkBtn" class="secondary">Tekshirish</button>
+            <button id="stopBtn" class="danger" disabled>To'xtatish</button>
+          </div>
+          <div class="progress"><div id="bar" class="bar"></div></div>
+          <p id="message" class="small">Tayyor.</p>
+        </div>
+      </aside>
+
+      <section class="card">
+        <h2>Natijalar</h2>
+        <div class="body">
+          <div class="stats">
+            <div class="stat"><b id="total">0</b><span>Jami</span></div>
+            <div class="stat"><b id="free" class="ok">0</b><span>1) Umuman bo'sh / tekin</span></div>
+            <div class="stat"><b id="sale" class="sale">0</b><span>2) Sotuvda bo'sh</span></div>
+            <div class="stat"><b id="taken" class="taken">0</b><span>3) Profili bor</span></div>
+          </div>
+          <div class="buttons">
+            <button id="downloadBtn" class="secondary">TXT yuklab olish</button>
+            <button id="sendBtn" class="secondary">Telegramga yuborish</button>
+          </div>
+          <div class="row">
+            <label>Bot token
+              <input id="botToken" type="password" placeholder="123456:ABC..." />
+            </label>
+            <label>Chat ID
+              <input id="chatId" placeholder="Masalan: 6961100352" />
+            </label>
+          </div>
+          <div class="tablebox">
+            <table>
+              <thead><tr><th>#</th><th>Nik</th><th>Holat</th><th>Izoh</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let results = [];
+    let shouldStop = false;
+
+    function uniqueChars(value) {
+      return [...new Set(value.toLowerCase().replace(/\s/g, '').split(''))].join('');
+    }
+
+    function expandPatterns() {
+      const selected = $('pattern').value;
+      if (selected === 'CUSTOM') return [$('customPattern').value.trim().toUpperCase()];
+      if (selected !== 'ALL5') return [selected];
+      return ['LLLLL', 'LLLLD', 'LLLDD', 'LLDDD', 'LDDDD', 'DDDDD'];
+    }
+
+    function* cartesian(pattern, letters, digits, prefix = '') {
+      const pools = pattern.split('').map(ch => ch === 'L' ? letters : digits);
+      const current = Array(pattern.length).fill('');
+      function* walk(pos) {
+        if (pos === pools.length) {
+          yield prefix + current.join('');
+          return;
+        }
+        for (const ch of pools[pos]) {
+          current[pos] = ch;
+          yield* walk(pos + 1);
+        }
+      }
+      yield* walk(0);
+    }
+
+    function setMessage(text) { $('message').textContent = text; }
+    function setProgress(done, total) { $('bar').style.width = total ? `${Math.round(done / total * 100)}%` : '0%'; }
+
+    function estimateCount(patterns, letters, digits) {
+      return patterns.reduce((sum, pattern) => sum + pattern.split('').reduce((acc, ch) => acc * (ch === 'L' ? letters.length : digits.length), 1), 0);
+    }
+
+    function render() {
+      $('total').textContent = results.length.toLocaleString();
+      $('free').textContent = results.filter(x => x.status === 'free').length.toLocaleString();
+      $('sale').textContent = results.filter(x => x.status === 'sale').length.toLocaleString();
+      $('taken').textContent = results.filter(x => x.status === 'taken').length.toLocaleString();
+      $('tbody').innerHTML = results.slice(0, 1000).map((r, i) => `
+        <tr><td>${i + 1}</td><td>@${r.username}</td><td><span class="pill ${r.status}">${statusText(r.status)}</span></td><td>${r.note || ''}</td></tr>
+      `).join('');
+    }
+
+    function statusText(status) {
+      return status === 'free' ? '1) tekin bo\'sh' : status === 'sale' ? '2) sotuvda bo\'sh' : status === 'taken' ? '3) egasi bor' : 'tekshirilmagan';
+    }
+
+    function demoStatus(username) {
+      const n = [...username].reduce((a, c) => a + c.charCodeAt(0), 0);
+      if (n % 17 === 0) return { status: 'sale', note: 'Demo tasnif: sotuvda bo\'lishi mumkin' };
+      if (n % 5 === 0) return { status: 'taken', note: 'Demo tasnif: profil bor deb belgilandi' };
+      return { status: 'free', note: 'Demo tasnif: bo\'sh deb belgilandi' };
+    }
+
+    $('generateBtn').addEventListener('click', async () => {
+      const letters = uniqueChars($('letters').value).replace(/[^a-z]/g, '');
+      const digits = uniqueChars($('digits').value).replace(/[^0-9]/g, '');
+      const patterns = expandPatterns();
+      const prefix = $('prefix').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+      const limit = Number($('limit').value) || 5000;
+      if (!letters || !digits || patterns.some(p => !/^[LD]+$/.test(p))) return alert('Alifbo, raqam yoki andoza noto\'g\'ri.');
+      shouldStop = false;
+      $('stopBtn').disabled = false;
+      results = [];
+      const totalEstimate = estimateCount(patterns, letters, digits);
+      let done = 0;
+      setMessage(`Hisoblanmoqda. Taxminiy jami: ${totalEstimate.toLocaleString()}, ko'rsatish limiti: ${limit.toLocaleString()}`);
+      for (const pattern of patterns) {
+        for (const username of cartesian(pattern, letters, digits, prefix)) {
+          if (shouldStop || results.length >= limit) break;
+          results.push({ username, status: 'unknown', note: 'Tekshirilmagan' });
+          done++;
+          if (done % 500 === 0) { setProgress(done, Math.min(totalEstimate, limit)); render(); await new Promise(r => setTimeout(r)); }
+        }
+      }
+      $('stopBtn').disabled = true;
+      setProgress(results.length, results.length);
+      render();
+      setMessage(`${results.length.toLocaleString()} ta kombinatsiya tayyor.`);
+    });
+
+    $('checkBtn').addEventListener('click', async () => {
+      if (!results.length) return alert('Avval kombinatsiya yarating.');
+      shouldStop = false;
+      $('stopBtn').disabled = false;
+      const endpoint = $('endpoint').value.trim();
+      for (let i = 0; i < results.length; i++) {
+        if (shouldStop) break;
+        const item = results[i];
+        try {
+          if (endpoint) {
+            const res = await fetch(endpoint.replace('{username}', encodeURIComponent(item.username)));
+            const data = await res.json();
+            item.status = ['free', 'sale', 'taken'].includes(data.status) ? data.status : 'taken';
+            item.note = data.note || 'Server endpoint orqali tekshirildi';
+          } else {
+            Object.assign(item, demoStatus(item.username));
+          }
+        } catch (err) {
+          item.status = 'taken';
+          item.note = `Tekshiruv xatosi: ${err.message}`;
+        }
+        if (i % 100 === 0) { setProgress(i + 1, results.length); render(); await new Promise(r => setTimeout(r)); }
+      }
+      $('stopBtn').disabled = true;
+      setProgress(1, 1);
+      render();
+      setMessage('Tekshiruv yakunlandi.');
+    });
+
+    $('stopBtn').addEventListener('click', () => { shouldStop = true; setMessage('To\'xtatilmoqda...'); });
+
+    function buildTxt() {
+      const groups = ['free', 'sale', 'taken', 'unknown'];
+      return groups.map(status => {
+        const rows = results.filter(r => r.status === status).map(r => `@${r.username} - ${statusText(r.status)} - ${r.note || ''}`);
+        return `\n=== ${statusText(status)} (${rows.length}) ===\n${rows.join('\n')}`;
+      }).join('\n');
+    }
+
+    $('downloadBtn').addEventListener('click', () => {
+      const blob = new Blob([buildTxt()], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `telegram-niklar-${new Date().toISOString().slice(0, 10)}.txt`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    $('sendBtn').addEventListener('click', async () => {
+      const token = $('botToken').value.trim();
+      const chatId = $('chatId').value.trim();
+      if (!token || !chatId) return alert('Bot token va Chat ID kiriting.');
+      const blob = new Blob([buildTxt()], { type: 'text/plain;charset=utf-8' });
+      const form = new FormData();
+      form.append('chat_id', chatId);
+      form.append('document', blob, 'telegram-niklar.txt');
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: 'POST', body: form });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.description || 'Telegramga yuborilmadi');
+      alert('TXT fayl Telegramga yuborildi.');
+    });
+  </script>
+</body>
+</html>
