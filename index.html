@@ -2,325 +2,112 @@
 <html lang="uz">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Telegram nik kombinator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07111f" />
+  <title>Telegram Nik Finder</title>
   <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #111827;
-      --panel-2: #1f2937;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --brand: #38bdf8;
-      --brand-2: #0ea5e9;
-      --ok: #22c55e;
-      --sale: #f59e0b;
-      --taken: #ef4444;
-      --line: #334155;
-      --shadow: 0 20px 60px rgba(0, 0, 0, .35);
+    :root{
+      --bg:#07111f;--text:#eef7ff;--muted:#9eb6ca;--line:rgba(255,255,255,.16);--glass:rgba(255,255,255,.10);
+      --glass-strong:rgba(255,255,255,.16);--blue:#35c7ff;--violet:#8b5cf6;--green:#35f08c;--amber:#ffc857;--red:#ff5570;
+      --shadow:0 28px 90px rgba(0,0,0,.42);--radius:28px;--safe-bottom:env(safe-area-inset-bottom,0px)
     }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, .22), transparent 34rem), var(--bg);
-    }
-
-    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0; }
-    .hero { display: grid; gap: 12px; margin-bottom: 24px; }
-    h1 { margin: 0; font-size: clamp(28px, 4vw, 48px); letter-spacing: -.04em; }
-    p { color: var(--muted); line-height: 1.65; margin: 0; }
-    .notice {
-      border: 1px solid rgba(56, 189, 248, .35);
-      background: rgba(14, 165, 233, .09);
-      color: #bae6fd;
-      border-radius: 16px;
-      padding: 14px 16px;
-    }
-
-    .grid { display: grid; grid-template-columns: 390px 1fr; gap: 18px; align-items: start; }
-    .card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden; }
-    .card h2 { margin: 0; padding: 18px 20px; border-bottom: 1px solid var(--line); font-size: 18px; }
-    .body { padding: 18px 20px; display: grid; gap: 16px; }
-    label { display: grid; gap: 8px; color: #cbd5e1; font-weight: 650; font-size: 14px; }
-    input, select, textarea {
-      width: 100%; border: 1px solid var(--line); background: rgba(15, 23, 42, .8); color: var(--text);
-      border-radius: 12px; padding: 12px 13px; outline: none; font: inherit;
-    }
-    textarea { min-height: 92px; resize: vertical; }
-    input:focus, select:focus, textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(56, 189, 248, .15); }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
-    button {
-      border: 0; cursor: pointer; border-radius: 12px; padding: 12px 14px; color: white; font-weight: 800;
-      background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 10px 24px rgba(14, 165, 233, .22);
-    }
-    button.secondary { background: var(--panel-2); box-shadow: none; border: 1px solid var(--line); }
-    button.danger { background: #dc2626; box-shadow: none; }
-    button:disabled { opacity: .55; cursor: not-allowed; }
-
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .stat { background: rgba(15, 23, 42, .72); border: 1px solid var(--line); border-radius: 16px; padding: 13px; }
-    .stat b { display: block; font-size: 24px; margin-bottom: 3px; }
-    .stat span { color: var(--muted); font-size: 12px; }
-    .ok { color: var(--ok); } .sale { color: var(--sale); } .taken { color: var(--taken); }
-
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
-    th { color: #cbd5e1; background: rgba(15, 23, 42, .65); position: sticky; top: 0; }
-    tbody tr:hover { background: rgba(255,255,255,.03); }
-    .tablebox { max-height: 560px; overflow: auto; }
-    .pill { border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 800; display: inline-flex; }
-    .pill.ok { background: rgba(34, 197, 94, .12); }
-    .pill.sale { background: rgba(245, 158, 11, .13); }
-    .pill.taken { background: rgba(239, 68, 68, .13); }
-    .small { font-size: 12px; color: var(--muted); }
-    .progress { height: 10px; background: #0b1220; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
-    .bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--brand), var(--ok)); transition: width .2s ease; }
-
-    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .stats { grid-template-columns: repeat(2, 1fr); } }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
+    body:before,body:after{content:"";position:fixed;inset:auto;z-index:-2;border-radius:999px;filter:blur(14px);opacity:.78}body:before{width:560px;height:560px;left:-170px;top:-170px;background:radial-gradient(circle,#2dd4ff,transparent 62%)}body:after{width:640px;height:640px;right:-220px;bottom:-220px;background:radial-gradient(circle,#8b5cf6,transparent 66%)}
+    .aurora{position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 50% 0%,rgba(53,199,255,.26),transparent 34rem),linear-gradient(135deg,#07111f,#111827 52%,#14102a)}
+    .app{width:min(1220px,calc(100% - 28px));margin:0 auto;padding:22px 0 110px}.topbar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;margin-bottom:22px;border:1px solid var(--line);background:rgba(7,17,31,.62);backdrop-filter:blur(22px);border-radius:24px;box-shadow:var(--shadow)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.03em}.logo{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 14px 34px rgba(53,199,255,.25)}.brand small{display:block;color:var(--muted);font-weight:700;letter-spacing:0}.nav{display:flex;gap:8px;flex-wrap:wrap}.tab{border:1px solid transparent;background:transparent;color:var(--muted);padding:11px 13px;border-radius:15px;font-weight:850;cursor:pointer}.tab.active,.tab:hover{color:var(--text);border-color:var(--line);background:var(--glass)}
+    .hero{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch}.glass{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06));box-shadow:var(--shadow);backdrop-filter:blur(26px);border-radius:var(--radius);overflow:hidden}.hero-main{padding:34px}.badge{display:inline-flex;gap:8px;align-items:center;color:#c9f2ff;background:rgba(53,199,255,.13);border:1px solid rgba(53,199,255,.25);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:850}.hero h1{font-size:clamp(34px,6vw,76px);line-height:.94;letter-spacing:-.075em;margin:18px 0 16px}.hero p{color:var(--muted);line-height:1.75;margin:0}.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:22px}.btn{border:0;cursor:pointer;border-radius:17px;padding:13px 16px;color:#04111d;font-weight:950;background:linear-gradient(135deg,var(--green),var(--blue));box-shadow:0 18px 42px rgba(53,199,255,.18)}.btn.secondary{color:var(--text);background:rgba(255,255,255,.12);border:1px solid var(--line);box-shadow:none}.btn.danger{color:#fff;background:linear-gradient(135deg,#ff5570,#ef4444)}.btn:disabled{opacity:.5;cursor:not-allowed}.hero-side{padding:22px;display:grid;gap:14px}.metric{padding:18px;border-radius:22px;background:rgba(255,255,255,.09);border:1px solid var(--line)}.metric b{font-size:34px;display:block}.metric span{color:var(--muted);font-weight:750}.ok{color:var(--green)}.sale{color:var(--amber)}.taken{color:var(--red)}
+    .screen{display:none;margin-top:18px}.screen.active{display:block}.grid{display:grid;grid-template-columns:390px 1fr;gap:18px;align-items:start}.card h2{margin:0;padding:19px 21px;border-bottom:1px solid var(--line);font-size:18px}.body{padding:20px;display:grid;gap:16px}label{display:grid;gap:8px;color:#dbeafe;font-size:14px;font-weight:850}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:17px;background:rgba(3,10,22,.42);color:var(--text);padding:13px 14px;outline:none;font:inherit}textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:rgba(53,199,255,.75);box-shadow:0 0 0 4px rgba(53,199,255,.14)}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hint,.small{font-size:12px;color:var(--muted);line-height:1.55}.notice{padding:14px 15px;border:1px solid rgba(255,200,87,.28);background:rgba(255,200,87,.10);border-radius:18px;color:#ffe7ad}.progress{height:12px;border-radius:999px;background:rgba(0,0,0,.25);border:1px solid var(--line);overflow:hidden}.bar{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .2s ease}
+    .chips{display:flex;flex-wrap:wrap;gap:9px}.chip{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid var(--line);font-size:12px;color:#dbeafe;font-weight:850}.tablebox{max-height:610px;overflow:auto;border-radius:20px;border:1px solid var(--line)}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}th{position:sticky;top:0;background:rgba(7,17,31,.92);backdrop-filter:blur(18px);z-index:2}.pill{display:inline-flex;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:950;background:rgba(255,255,255,.1)}.pill.free{color:var(--green)}.pill.sale{color:var(--amber)}.pill.taken{color:var(--red)}.pill.unknown{color:var(--muted)}
+    .bottomnav{display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + var(--safe-bottom));z-index:30;padding:8px;border:1px solid var(--line);background:rgba(7,17,31,.76);backdrop-filter:blur(24px);border-radius:24px;box-shadow:var(--shadow);grid-template-columns:repeat(4,1fr);gap:6px}.bottomnav button{border:0;background:transparent;color:var(--muted);border-radius:16px;padding:10px 4px;font-weight:850}.bottomnav button.active{color:var(--text);background:var(--glass-strong)}
+    @media(max-width:940px){.hero,.grid{grid-template-columns:1fr}.nav{display:none}.bottomnav{display:grid}.app{padding-bottom:110px}.topbar{top:8px}.row{grid-template-columns:1fr}}@media(max-width:560px){.app{width:min(100% - 18px,1220px);padding-top:10px}.hero-main{padding:24px}.hero h1{font-size:44px}.metric b{font-size:28px}.card h2{padding:17px}.body{padding:16px}}
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero">
-      <h1>Telegram nik kombinator</h1>
-      <p>26 ta lotin harfi va 10 ta raqamdan 5 belgili niklar yasaydi: 5 harf, 4 harf + 1 son, 3 harf + 2 son va hokazo. Natijani TXT qilib yuklab olish yoki Bot API orqali Telegram akkauntingizga yuborish mumkin.</p>
-      <div class="notice">Eslatma: faqat HTML/JS ichida Telegram API ID/API HASH bilan haqiqiy username tekshirish xavfsiz emas va brauzerda MTProto/CORS sababli to'g'ridan-to'g'ri ishlamaydi. Shu sahifa kombinatsiyalarni yaratadi; haqiqiy tekshiruv uchun o'zingizning server endpointingizni ulang yoki CSV/TXT natijani import qiling.</div>
+  <div class="aurora"></div>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><div class="logo">🔎</div><div>Nick Finder<small>Telegram kombinator</small></div></div>
+      <nav class="nav" aria-label="Ekranlar">
+        <button class="tab active" data-screen="home">Asosiy</button><button class="tab" data-screen="generator">Generator</button><button class="tab" data-screen="results">Natijalar</button><button class="tab" data-screen="settings">Sozlamalar</button>
+      </nav>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero">
+        <div class="glass hero-main">
+          <span class="badge">✨ Shishasimon mobil ilova interfeysi</span>
+          <h1>Telegram niklarni tez yig'ing.</h1>
+          <p>26 ta lotin harfi va 10 ta raqamdan 5 belgili yoki maxsus uzunlikdagi kombinatsiyalar yarating, 1) umuman bo'sh, 2) sotuvda bo'sh, 3) egasi bor holatlariga ajrating va TXT fayl sifatida yuklab oling.</p>
+          <div class="actions"><button class="btn" data-jump="generator">Boshlash</button><button class="btn secondary" data-jump="results">Natijalarni ko'rish</button></div>
+        </div>
+        <div class="glass hero-side">
+          <div class="metric"><b id="mTotal">0</b><span>Jami nik</span></div>
+          <div class="metric"><b id="mFree" class="ok">0</b><span>Tekin bo'sh</span></div>
+          <div class="metric"><b id="mSale" class="sale">0</b><span>Sotuvda bo'sh</span></div>
+          <div class="metric"><b id="mTaken" class="taken">0</b><span>Egasi bor</span></div>
+        </div>
+      </div>
     </section>
 
-    <section class="grid">
-      <aside class="card">
-        <h2>Sozlamalar</h2>
-        <div class="body">
-          <label>Harf alifbosi
-            <input id="letters" value="abcdefghijklmnopqrstuvwxyz" />
-          </label>
-          <label>Raqamlar
-            <input id="digits" value="0123456789" />
-          </label>
-          <div class="row">
-            <label>Uzunlik
-              <input id="length" type="number" min="1" max="8" value="5" />
-            </label>
-            <label>Ko'rsatish limiti
-              <input id="limit" type="number" min="1" value="5000" />
-            </label>
+    <section id="generator" class="screen">
+      <div class="grid">
+        <aside class="glass card">
+          <h2>Generator paneli</h2>
+          <div class="body">
+            <div class="notice">HTML ichida API ID/API HASH saqlash xavfsiz emas. Brauzer Telegram username holatini bevosita MTProto orqali tekshirolmaydi; haqiqiy tekshiruv uchun o'z backend endpointingizni ulang.</div>
+            <label>Harf alifbosi<input id="letters" value="abcdefghijklmnopqrstuvwxyz" /></label>
+            <label>Raqamlar<input id="digits" value="0123456789" /></label>
+            <div class="row"><label>Uzunlik<input id="length" type="number" min="1" max="8" value="5" /></label><label>Natija limiti<input id="limit" type="number" min="1" value="10000" /></label></div>
+            <label>Rejim<select id="mode"><option value="preset">Tayyor andoza</option><option value="allRatios">Uzunlik bo'yicha barcha L/D nisbatlar</option><option value="custom">Maxsus andoza</option></select></label>
+            <label>Tayyor andoza<select id="preset"><option value="LLLLL">5 ta harf</option><option value="LLLLD">4 harf + 1 son</option><option value="LLLDD">3 harf + 2 son</option><option value="LLDDD">2 harf + 3 son</option><option value="LDDDD">1 harf + 4 son</option><option value="DDDDD">5 ta son</option></select></label>
+            <label>Maxsus andoza <span class="hint">L = harf, D = son. Masalan: LLDLD</span><input id="customPattern" placeholder="LLDLD" /></label>
+            <label>Prefiks / boshlanish<input id="prefix" placeholder="masalan: uz" /></label>
+            <div class="chips"><span class="chip">Takror belgilar avtomatik tozalanadi</span><span class="chip">Natija jadvali 1000 qatorgacha ko'rsatadi</span></div>
+            <div class="actions"><button id="generateBtn" class="btn">Kombinatsiya yaratish</button><button id="checkBtn" class="btn secondary">Tekshirish</button><button id="stopBtn" class="btn danger" disabled>To'xtatish</button></div>
+            <div class="progress"><div id="bar" class="bar"></div></div><p id="message" class="small">Tayyor.</p>
           </div>
-          <label>Andoza
-            <select id="pattern">
-              <option value="LLLLL">5 ta harf</option>
-              <option value="LLLLD">4 ta harf + 1 ta son</option>
-              <option value="LLLDD">3 ta harf + 2 ta son</option>
-              <option value="LLDDD">2 ta harf + 3 ta son</option>
-              <option value="LDDDD">1 ta harf + 4 ta son</option>
-              <option value="ALL5">Barcha 5 belgili nisbatlar</option>
-              <option value="CUSTOM">Maxsus andoza</option>
-            </select>
-          </label>
-          <label>Maxsus andoza: L = harf, D = son
-            <input id="customPattern" placeholder="Masalan: LLDLD" />
-          </label>
-          <label>Boshlanish prefiksi (ixtiyoriy)
-            <input id="prefix" placeholder="Masalan: uz" />
-          </label>
-          <label>Server tekshiruv endpointi (ixtiyoriy)
-            <input id="endpoint" placeholder="https://example.com/check?username={username}" />
-            <span class="small">Endpoint JSON qaytarsa yaxshi: {"status":"free|sale|taken"}. Bo'sh qoldirilsa demo tasnif ishlaydi.</span>
-          </label>
-          <div class="buttons">
-            <button id="generateBtn">Kombinatsiya yaratish</button>
-            <button id="checkBtn" class="secondary">Tekshirish</button>
-            <button id="stopBtn" class="danger" disabled>To'xtatish</button>
-          </div>
-          <div class="progress"><div id="bar" class="bar"></div></div>
-          <p id="message" class="small">Tayyor.</p>
-        </div>
-      </aside>
+        </aside>
+        <section class="glass card"><h2>Jonli ko'rinish</h2><div class="body"><div class="tablebox"><table><thead><tr><th>#</th><th>Nik</th><th>Holat</th><th>Izoh</th></tr></thead><tbody id="tbody"></tbody></table></div></div></section>
+      </div>
+    </section>
 
-      <section class="card">
-        <h2>Natijalar</h2>
-        <div class="body">
-          <div class="stats">
-            <div class="stat"><b id="total">0</b><span>Jami</span></div>
-            <div class="stat"><b id="free" class="ok">0</b><span>1) Umuman bo'sh / tekin</span></div>
-            <div class="stat"><b id="sale" class="sale">0</b><span>2) Sotuvda bo'sh</span></div>
-            <div class="stat"><b id="taken" class="taken">0</b><span>3) Profili bor</span></div>
-          </div>
-          <div class="buttons">
-            <button id="downloadBtn" class="secondary">TXT yuklab olish</button>
-            <button id="sendBtn" class="secondary">Telegramga yuborish</button>
-          </div>
-          <div class="row">
-            <label>Bot token
-              <input id="botToken" type="password" placeholder="123456:ABC..." />
-            </label>
-            <label>Chat ID
-              <input id="chatId" placeholder="Masalan: 6961100352" />
-            </label>
-          </div>
-          <div class="tablebox">
-            <table>
-              <thead><tr><th>#</th><th>Nik</th><th>Holat</th><th>Izoh</th></tr></thead>
-              <tbody id="tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+    <section id="results" class="screen">
+      <div class="glass card"><h2>Natijalar va TXT</h2><div class="body">
+        <div class="hero-side" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding:0"><div class="metric"><b id="total">0</b><span>Jami</span></div><div class="metric"><b id="free" class="ok">0</b><span>1) Umuman bo'sh</span></div><div class="metric"><b id="sale" class="sale">0</b><span>2) Sotuvda bo'sh</span></div><div class="metric"><b id="taken" class="taken">0</b><span>3) Profili bor</span></div></div>
+        <div class="actions"><button id="downloadBtn" class="btn">TXT yuklab olish</button><button id="copyBtn" class="btn secondary">TXT nusxalash</button><button id="clearBtn" class="btn danger">Tozalash</button></div>
+        <textarea id="txtPreview" readonly placeholder="Natija TXT shu yerda ko'rinadi"></textarea>
+      </div></div>
+    </section>
+
+    <section id="settings" class="screen">
+      <div class="grid"><div class="glass card"><h2>Tekshiruv va Telegram</h2><div class="body">
+        <label>Server tekshiruv endpointi<input id="endpoint" placeholder="https://example.com/check?username={username}" /><span class="hint">JSON: {"status":"free|sale|taken","note":"..."}. Bo'sh bo'lsa demo tasnif ishlaydi.</span></label>
+        <div class="row"><label>Bot token<input id="botToken" type="password" placeholder="123456:ABC..." /></label><label>Chat ID<input id="chatId" placeholder="6961100352" /></label></div>
+        <button id="sendBtn" class="btn">TXT faylni Telegramga yuborish</button>
+      </div></div><div class="glass card"><h2>Ilovaga tayyorlash</h2><div class="body"><p class="small">Bu fayl bitta `index.html`: Android WebView, Capacitor, Cordova yoki Telegram Web App ichiga qo'yishga tayyor. Maxfiy API ID/API HASH va bot tokenlarni frontendga doimiy yozmang; ularni backendda saqlang.</p><div class="chips"><span class="chip">Responsive</span><span class="chip">PWA theme-color</span><span class="chip">Mobile bottom-nav</span><span class="chip">Glass UI</span></div></div></div></div>
     </section>
   </main>
 
+  <nav class="bottomnav"><button class="active" data-screen="home">🏠<br>Asosiy</button><button data-screen="generator">⚙️<br>Generator</button><button data-screen="results">📄<br>Natija</button><button data-screen="settings">🔐<br>Sozlama</button></nav>
+
   <script>
-    const $ = id => document.getElementById(id);
-    let results = [];
-    let shouldStop = false;
-
-    function uniqueChars(value) {
-      return [...new Set(value.toLowerCase().replace(/\s/g, '').split(''))].join('');
-    }
-
-    function expandPatterns() {
-      const selected = $('pattern').value;
-      if (selected === 'CUSTOM') return [$('customPattern').value.trim().toUpperCase()];
-      if (selected !== 'ALL5') return [selected];
-      return ['LLLLL', 'LLLLD', 'LLLDD', 'LLDDD', 'LDDDD', 'DDDDD'];
-    }
-
-    function* cartesian(pattern, letters, digits, prefix = '') {
-      const pools = pattern.split('').map(ch => ch === 'L' ? letters : digits);
-      const current = Array(pattern.length).fill('');
-      function* walk(pos) {
-        if (pos === pools.length) {
-          yield prefix + current.join('');
-          return;
-        }
-        for (const ch of pools[pos]) {
-          current[pos] = ch;
-          yield* walk(pos + 1);
-        }
-      }
-      yield* walk(0);
-    }
-
-    function setMessage(text) { $('message').textContent = text; }
-    function setProgress(done, total) { $('bar').style.width = total ? `${Math.round(done / total * 100)}%` : '0%'; }
-
-    function estimateCount(patterns, letters, digits) {
-      return patterns.reduce((sum, pattern) => sum + pattern.split('').reduce((acc, ch) => acc * (ch === 'L' ? letters.length : digits.length), 1), 0);
-    }
-
-    function render() {
-      $('total').textContent = results.length.toLocaleString();
-      $('free').textContent = results.filter(x => x.status === 'free').length.toLocaleString();
-      $('sale').textContent = results.filter(x => x.status === 'sale').length.toLocaleString();
-      $('taken').textContent = results.filter(x => x.status === 'taken').length.toLocaleString();
-      $('tbody').innerHTML = results.slice(0, 1000).map((r, i) => `
-        <tr><td>${i + 1}</td><td>@${r.username}</td><td><span class="pill ${r.status}">${statusText(r.status)}</span></td><td>${r.note || ''}</td></tr>
-      `).join('');
-    }
-
-    function statusText(status) {
-      return status === 'free' ? '1) tekin bo\'sh' : status === 'sale' ? '2) sotuvda bo\'sh' : status === 'taken' ? '3) egasi bor' : 'tekshirilmagan';
-    }
-
-    function demoStatus(username) {
-      const n = [...username].reduce((a, c) => a + c.charCodeAt(0), 0);
-      if (n % 17 === 0) return { status: 'sale', note: 'Demo tasnif: sotuvda bo\'lishi mumkin' };
-      if (n % 5 === 0) return { status: 'taken', note: 'Demo tasnif: profil bor deb belgilandi' };
-      return { status: 'free', note: 'Demo tasnif: bo\'sh deb belgilandi' };
-    }
-
-    $('generateBtn').addEventListener('click', async () => {
-      const letters = uniqueChars($('letters').value).replace(/[^a-z]/g, '');
-      const digits = uniqueChars($('digits').value).replace(/[^0-9]/g, '');
-      const patterns = expandPatterns();
-      const prefix = $('prefix').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
-      const limit = Number($('limit').value) || 5000;
-      if (!letters || !digits || patterns.some(p => !/^[LD]+$/.test(p))) return alert('Alifbo, raqam yoki andoza noto\'g\'ri.');
-      shouldStop = false;
-      $('stopBtn').disabled = false;
-      results = [];
-      const totalEstimate = estimateCount(patterns, letters, digits);
-      let done = 0;
-      setMessage(`Hisoblanmoqda. Taxminiy jami: ${totalEstimate.toLocaleString()}, ko'rsatish limiti: ${limit.toLocaleString()}`);
-      for (const pattern of patterns) {
-        for (const username of cartesian(pattern, letters, digits, prefix)) {
-          if (shouldStop || results.length >= limit) break;
-          results.push({ username, status: 'unknown', note: 'Tekshirilmagan' });
-          done++;
-          if (done % 500 === 0) { setProgress(done, Math.min(totalEstimate, limit)); render(); await new Promise(r => setTimeout(r)); }
-        }
-      }
-      $('stopBtn').disabled = true;
-      setProgress(results.length, results.length);
-      render();
-      setMessage(`${results.length.toLocaleString()} ta kombinatsiya tayyor.`);
-    });
-
-    $('checkBtn').addEventListener('click', async () => {
-      if (!results.length) return alert('Avval kombinatsiya yarating.');
-      shouldStop = false;
-      $('stopBtn').disabled = false;
-      const endpoint = $('endpoint').value.trim();
-      for (let i = 0; i < results.length; i++) {
-        if (shouldStop) break;
-        const item = results[i];
-        try {
-          if (endpoint) {
-            const res = await fetch(endpoint.replace('{username}', encodeURIComponent(item.username)));
-            const data = await res.json();
-            item.status = ['free', 'sale', 'taken'].includes(data.status) ? data.status : 'taken';
-            item.note = data.note || 'Server endpoint orqali tekshirildi';
-          } else {
-            Object.assign(item, demoStatus(item.username));
-          }
-        } catch (err) {
-          item.status = 'taken';
-          item.note = `Tekshiruv xatosi: ${err.message}`;
-        }
-        if (i % 100 === 0) { setProgress(i + 1, results.length); render(); await new Promise(r => setTimeout(r)); }
-      }
-      $('stopBtn').disabled = true;
-      setProgress(1, 1);
-      render();
-      setMessage('Tekshiruv yakunlandi.');
-    });
-
-    $('stopBtn').addEventListener('click', () => { shouldStop = true; setMessage('To\'xtatilmoqda...'); });
-
-    function buildTxt() {
-      const groups = ['free', 'sale', 'taken', 'unknown'];
-      return groups.map(status => {
-        const rows = results.filter(r => r.status === status).map(r => `@${r.username} - ${statusText(r.status)} - ${r.note || ''}`);
-        return `\n=== ${statusText(status)} (${rows.length}) ===\n${rows.join('\n')}`;
-      }).join('\n');
-    }
-
-    $('downloadBtn').addEventListener('click', () => {
-      const blob = new Blob([buildTxt()], { type: 'text/plain;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `telegram-niklar-${new Date().toISOString().slice(0, 10)}.txt`;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
-
-    $('sendBtn').addEventListener('click', async () => {
-      const token = $('botToken').value.trim();
-      const chatId = $('chatId').value.trim();
-      if (!token || !chatId) return alert('Bot token va Chat ID kiriting.');
-      const blob = new Blob([buildTxt()], { type: 'text/plain;charset=utf-8' });
-      const form = new FormData();
-      form.append('chat_id', chatId);
-      form.append('document', blob, 'telegram-niklar.txt');
-      const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: 'POST', body: form });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.description || 'Telegramga yuborilmadi');
-      alert('TXT fayl Telegramga yuborildi.');
-    });
+    const $=id=>document.getElementById(id);let results=[];let shouldStop=false;
+    const screens=[...document.querySelectorAll('.screen')],tabs=[...document.querySelectorAll('[data-screen]')];
+    function showScreen(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));tabs.forEach(t=>t.classList.toggle('active',t.dataset.screen===id));}
+    tabs.forEach(t=>t.addEventListener('click',()=>showScreen(t.dataset.screen)));document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.jump)));
+    function uniqueChars(v,rx){return [...new Set(v.toLowerCase().replace(/\s/g,'').split(''))].join('').replace(rx,'')}function msg(t){$('message').textContent=t}function progress(a,b){$('bar').style.width=b?`${Math.round(a/b*100)}%`:'0%'}
+    function patterns(){const len=Math.max(1,Math.min(8,Number($('length').value)||5));const mode=$('mode').value;if(mode==='custom')return[$('customPattern').value.trim().toUpperCase()];if(mode==='preset')return[$('preset').value];let out=[];for(let l=len;l>=0;l--)out.push('L'.repeat(l)+'D'.repeat(len-l));return out}
+    function* cartesian(pattern,letters,digits,prefix=''){const pools=pattern.split('').map(c=>c==='L'?letters:digits),cur=Array(pattern.length).fill('');function* walk(i){if(i===pools.length){yield prefix+cur.join('');return}for(const ch of pools[i]){cur[i]=ch;yield* walk(i+1)}}yield* walk(0)}
+    function estimate(ps,letters,digits){return ps.reduce((s,p)=>s+p.split('').reduce((a,c)=>a*(c==='L'?letters.length:digits.length),1),0)}
+    function statusText(s){return s==='free'?'1) tekin bo\'sh':s==='sale'?'2) sotuvda bo\'sh':s==='taken'?'3) egasi bor':'tekshirilmagan'}
+    function demoStatus(u){const n=[...u].reduce((a,c)=>a+c.charCodeAt(0),0);if(n%17===0)return{status:'sale',note:'Demo: sotuvda bo\'lishi mumkin'};if(n%5===0)return{status:'taken',note:'Demo: profili bor deb belgilandi'};return{status:'free',note:'Demo: bo\'sh deb belgilandi'}}
+    function render(){const c=s=>results.filter(x=>x.status===s).length;[['total',results.length],['mTotal',results.length],['free',c('free')],['mFree',c('free')],['sale',c('sale')],['mSale',c('sale')],['taken',c('taken')],['mTaken',c('taken')]].forEach(([id,v])=>$(id).textContent=v.toLocaleString());$('tbody').innerHTML=results.slice(0,1000).map((r,i)=>`<tr><td>${i+1}</td><td>@${r.username}</td><td><span class="pill ${r.status}">${statusText(r.status)}</span></td><td>${r.note||''}</td></tr>`).join('');$('txtPreview').value=buildTxt().slice(0,20000)}
+    $('generateBtn').addEventListener('click',async()=>{const letters=uniqueChars($('letters').value,/[^a-z]/g),digits=uniqueChars($('digits').value,/[^0-9]/g),ps=patterns(),prefix=$('prefix').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,''),limit=Number($('limit').value)||10000;if(!letters||!digits||ps.some(p=>!/^[LD]+$/.test(p)))return alert('Alifbo, raqam yoki andoza noto\'g\'ri.');results=[];shouldStop=false;$('stopBtn').disabled=false;const total=estimate(ps,letters,digits);let done=0;msg(`Yaratilmoqda: taxminiy ${total.toLocaleString()} ta. Limit ${limit.toLocaleString()}.`);for(const p of ps){for(const u of cartesian(p,letters,digits,prefix)){if(shouldStop||results.length>=limit)break;results.push({username:u,status:'unknown',note:'Tekshirilmagan'});done++;if(done%500===0){progress(done,Math.min(total,limit));render();await new Promise(r=>setTimeout(r))}}}progress(1,1);$('stopBtn').disabled=true;render();msg(`${results.length.toLocaleString()} ta kombinatsiya tayyor.`)});
+    $('checkBtn').addEventListener('click',async()=>{if(!results.length)return alert('Avval kombinatsiya yarating.');shouldStop=false;$('stopBtn').disabled=false;const endpoint=$('endpoint').value.trim();for(let i=0;i<results.length;i++){if(shouldStop)break;const item=results[i];try{if(endpoint){const res=await fetch(endpoint.replace('{username}',encodeURIComponent(item.username)));const data=await res.json();item.status=['free','sale','taken'].includes(data.status)?data.status:'taken';item.note=data.note||'Server endpoint orqali tekshirildi'}else Object.assign(item,demoStatus(item.username))}catch(e){item.status='taken';item.note=`Tekshiruv xatosi: ${e.message}`}if(i%100===0){progress(i+1,results.length);render();await new Promise(r=>setTimeout(r))}}$('stopBtn').disabled=true;progress(1,1);render();msg('Tekshiruv yakunlandi.')});
+    $('stopBtn').onclick=()=>{shouldStop=true;msg('To\'xtatilmoqda...')};function buildTxt(){if(!results.length)return'';return['free','sale','taken','unknown'].map(s=>{const rows=results.filter(r=>r.status===s).map(r=>`@${r.username} - ${statusText(r.status)} - ${r.note||''}`);return`=== ${statusText(s)} (${rows.length}) ===\n${rows.join('\n')}`}).join('\n\n')}
+    $('downloadBtn').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buildTxt()],{type:'text/plain;charset=utf-8'}));a.download=`telegram-niklar-${new Date().toISOString().slice(0,10)}.txt`;a.click();URL.revokeObjectURL(a.href)};$('copyBtn').onclick=async()=>{await navigator.clipboard.writeText(buildTxt());alert('TXT nusxalandi')};$('clearBtn').onclick=()=>{results=[];render();progress(0,1);msg('Natijalar tozalandi')};
+    $('sendBtn').onclick=async()=>{const token=$('botToken').value.trim(),chatId=$('chatId').value.trim();if(!token||!chatId)return alert('Bot token va Chat ID kiriting.');const f=new FormData();f.append('chat_id',chatId);f.append('document',new Blob([buildTxt()],{type:'text/plain;charset=utf-8'}),'telegram-niklar.txt');const res=await fetch(`https://api.telegram.org/bot${token}/sendDocument`,{method:'POST',body:f}),data=await res.json();if(!data.ok)throw new Error(data.description||'Telegramga yuborilmadi');alert('TXT fayl Telegramga yuborildi.')};render();
   </script>
 </body>
 </html>
