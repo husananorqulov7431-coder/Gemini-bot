@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07111f" />
+  <meta name="application-name" content="Telegram Nick Finder" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Telegram Nik Finder</title>
+  <style>
+    :root{
+      --bg:#07111f;--text:#eef7ff;--muted:#9eb6ca;--line:rgba(255,255,255,.16);--glass:rgba(255,255,255,.10);
+      --glass-strong:rgba(255,255,255,.16);--blue:#35c7ff;--violet:#8b5cf6;--green:#35f08c;--amber:#ffc857;--red:#ff5570;
+      --shadow:0 28px 90px rgba(0,0,0,.42);--radius:28px;--safe-bottom:env(safe-area-inset-bottom,0px)
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
+    body:before,body:after{content:"";position:fixed;inset:auto;z-index:-2;border-radius:999px;filter:blur(14px);opacity:.78}body:before{width:560px;height:560px;left:-170px;top:-170px;background:radial-gradient(circle,#2dd4ff,transparent 62%)}body:after{width:640px;height:640px;right:-220px;bottom:-220px;background:radial-gradient(circle,#8b5cf6,transparent 66%)}
+    .aurora{position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 50% 0%,rgba(53,199,255,.26),transparent 34rem),linear-gradient(135deg,#07111f,#111827 52%,#14102a)}
+    .app{width:min(1220px,calc(100% - 28px));margin:0 auto;padding:22px 0 110px}.topbar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;margin-bottom:22px;border:1px solid var(--line);background:rgba(7,17,31,.62);backdrop-filter:blur(22px);border-radius:24px;box-shadow:var(--shadow)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.03em}.logo{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 14px 34px rgba(53,199,255,.25)}.brand small{display:block;color:var(--muted);font-weight:700;letter-spacing:0}.nav{display:flex;gap:8px;flex-wrap:wrap}.tab{border:1px solid transparent;background:transparent;color:var(--muted);padding:11px 13px;border-radius:15px;font-weight:850;cursor:pointer}.tab.active,.tab:hover{color:var(--text);border-color:var(--line);background:var(--glass)}
+    .hero{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch}.glass{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06));box-shadow:var(--shadow);backdrop-filter:blur(26px);border-radius:var(--radius);overflow:hidden}.hero-main{padding:34px}.badge{display:inline-flex;gap:8px;align-items:center;color:#c9f2ff;background:rgba(53,199,255,.13);border:1px solid rgba(53,199,255,.25);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:850}.hero h1{font-size:clamp(34px,6vw,76px);line-height:.94;letter-spacing:-.075em;margin:18px 0 16px}.hero p{color:var(--muted);line-height:1.75;margin:0}.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:22px}.btn{border:0;cursor:pointer;border-radius:17px;padding:13px 16px;color:#04111d;font-weight:950;background:linear-gradient(135deg,var(--green),var(--blue));box-shadow:0 18px 42px rgba(53,199,255,.18)}.btn.secondary{color:var(--text);background:rgba(255,255,255,.12);border:1px solid var(--line);box-shadow:none}.btn.danger{color:#fff;background:linear-gradient(135deg,#ff5570,#ef4444)}.btn:disabled{opacity:.5;cursor:not-allowed}.hero-side{padding:22px;display:grid;gap:14px}.metric{padding:18px;border-radius:22px;background:rgba(255,255,255,.09);border:1px solid var(--line)}.metric b{font-size:34px;display:block}.metric span{color:var(--muted);font-weight:750}.ok{color:var(--green)}.sale{color:var(--amber)}.taken{color:var(--red)}
+    .screen{display:none;margin-top:18px}.screen.active{display:block}.grid{display:grid;grid-template-columns:390px 1fr;gap:18px;align-items:start}.card h2{margin:0;padding:19px 21px;border-bottom:1px solid var(--line);font-size:18px}.body{padding:20px;display:grid;gap:16px}label{display:grid;gap:8px;color:#dbeafe;font-size:14px;font-weight:850}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:17px;background:rgba(3,10,22,.42);color:var(--text);padding:13px 14px;outline:none;font:inherit}textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:rgba(53,199,255,.75);box-shadow:0 0 0 4px rgba(53,199,255,.14)}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hint,.small{font-size:12px;color:var(--muted);line-height:1.55}.notice{padding:14px 15px;border:1px solid rgba(255,200,87,.28);background:rgba(255,200,87,.10);border-radius:18px;color:#ffe7ad}.progress{height:12px;border-radius:999px;background:rgba(0,0,0,.25);border:1px solid var(--line);overflow:hidden}.bar{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .2s ease}
+    .chips{display:flex;flex-wrap:wrap;gap:9px}.chip{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid var(--line);font-size:12px;color:#dbeafe;font-weight:850}.tablebox{max-height:610px;overflow:auto;border-radius:20px;border:1px solid var(--line)}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}th{position:sticky;top:0;background:rgba(7,17,31,.92);backdrop-filter:blur(18px);z-index:2}.pill{display:inline-flex;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:950;background:rgba(255,255,255,.1)}.pill.free{color:var(--green)}.pill.sale{color:var(--amber)}.pill.taken{color:var(--red)}.pill.unknown{color:var(--muted)}
+    .bottomnav{display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + var(--safe-bottom));z-index:30;padding:8px;border:1px solid var(--line);background:rgba(7,17,31,.76);backdrop-filter:blur(24px);border-radius:24px;box-shadow:var(--shadow);grid-template-columns:repeat(4,1fr);gap:6px}.bottomnav button{border:0;background:transparent;color:var(--muted);border-radius:16px;padding:10px 4px;font-weight:850}.bottomnav button.active{color:var(--text);background:var(--glass-strong)}
+    @media(max-width:940px){.hero,.grid{grid-template-columns:1fr}.nav{display:none}.bottomnav{display:grid}.app{padding-bottom:110px}.topbar{top:8px}.row{grid-template-columns:1fr}}@media(max-width:560px){.app{width:min(100% - 18px,1220px);padding-top:10px}.hero-main{padding:24px}.hero h1{font-size:44px}.metric b{font-size:28px}.card h2{padding:17px}.body{padding:16px}}
+  </style>
+</head>
+<body>
+  <div class="aurora"></div>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><div class="logo">🔎</div><div>Nick Finder<small>Telegram kombinator</small></div></div>
+      <nav class="nav" aria-label="Ekranlar">
+        <button class="tab active" data-screen="home">Asosiy</button><button class="tab" data-screen="generator">Generator</button><button class="tab" data-screen="results">Natijalar</button><button class="tab" data-screen="settings">Sozlamalar</button>
+      </nav>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero">
+        <div class="glass hero-main">
+          <span class="badge">✨ Shishasimon mobil ilova interfeysi</span>
+          <h1>Telegram niklarni tez yig'ing.</h1>
+          <p>26 ta lotin harfi va 10 ta raqamdan 5 belgili yoki maxsus uzunlikdagi kombinatsiyalar yarating, 1) umuman bo'sh, 2) sotuvda bo'sh, 3) egasi bor holatlariga ajrating va TXT fayl sifatida yuklab oling.</p>
+          <div class="actions"><button class="btn" data-jump="generator">Boshlash</button><button class="btn secondary" data-jump="results">Natijalarni ko'rish</button></div>
+        </div>
+        <div class="glass hero-side">
+          <div class="metric"><b id="mTotal">0</b><span>Jami nik</span></div>
+          <div class="metric"><b id="mFree" class="ok">0</b><span>Tekin bo'sh</span></div>
+          <div class="metric"><b id="mSale" class="sale">0</b><span>Sotuvda bo'sh</span></div>
+          <div class="metric"><b id="mTaken" class="taken">0</b><span>Egasi bor</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="generator" class="screen">
+      <div class="grid">
+        <aside class="glass card">
+          <h2>Generator paneli</h2>
+          <div class="body">
+            <div class="notice">HTML ichida API ID/API HASH saqlash xavfsiz emas. Brauzer Telegram username holatini bevosita MTProto orqali tekshirolmaydi; haqiqiy tekshiruv uchun o'z backend endpointingizni ulang.</div>
+            <label>Harf alifbosi<input id="letters" value="abcdefghijklmnopqrstuvwxyz" /></label>
+            <label>Raqamlar<input id="digits" value="0123456789" /></label>
+            <div class="row"><label>Uzunlik<input id="length" type="number" min="1" max="8" value="5" /></label><label>Natija limiti<input id="limit" type="number" min="1" value="10000" /></label></div>
+            <label>Rejim<select id="mode"><option value="preset">Tayyor andoza</option><option value="allRatios">Uzunlik bo'yicha barcha L/D nisbatlar</option><option value="custom">Maxsus andoza</option></select></label>
+            <label>Tayyor andoza<select id="preset"><option value="LLLLL">5 ta harf</option><option value="LLLLD">4 harf + 1 son</option><option value="LLLDD">3 harf + 2 son</option><option value="LLDDD">2 harf + 3 son</option><option value="LDDDD">1 harf + 4 son</option><option value="DDDDD">5 ta son</option></select></label>
+            <label>Maxsus andoza <span class="hint">L = harf, D = son. Masalan: LLDLD</span><input id="customPattern" placeholder="LLDLD" /></label>
+            <label>Prefiks / boshlanish<input id="prefix" placeholder="masalan: uz" /></label>
+            <div class="chips"><span class="chip">Takror belgilar avtomatik tozalanadi</span><span class="chip">Natija jadvali 1000 qatorgacha ko'rsatadi</span></div>
+            <div class="actions"><button id="generateBtn" class="btn">Kombinatsiya yaratish</button><button id="checkBtn" class="btn secondary">Tekshirish</button><button id="stopBtn" class="btn danger" disabled>To'xtatish</button></div>
+            <div class="progress"><div id="bar" class="bar"></div></div><p id="message" class="small">Tayyor.</p>
+          </div>
+        </aside>
+        <section class="glass card"><h2>Jonli ko'rinish</h2><div class="body"><div class="tablebox"><table><thead><tr><th>#</th><th>Nik</th><th>Holat</th><th>Izoh</th></tr></thead><tbody id="tbody"></tbody></table></div></div></section>
+      </div>
+    </section>
+
+    <section id="results" class="screen">
+      <div class="glass card"><h2>Natijalar va TXT</h2><div class="body">
+        <div class="hero-side" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));padding:0"><div class="metric"><b id="total">0</b><span>Jami</span></div><div class="metric"><b id="free" class="ok">0</b><span>1) Umuman bo'sh</span></div><div class="metric"><b id="sale" class="sale">0</b><span>2) Sotuvda bo'sh</span></div><div class="metric"><b id="taken" class="taken">0</b><span>3) Profili bor</span></div></div>
+        <div class="actions"><button id="downloadBtn" class="btn">TXT yuklab olish</button><button id="copyBtn" class="btn secondary">TXT nusxalash</button><button id="clearBtn" class="btn danger">Tozalash</button></div>
+        <textarea id="txtPreview" readonly placeholder="Natija TXT shu yerda ko'rinadi"></textarea>
+      </div></div>
+    </section>
+
+    <section id="settings" class="screen">
+      <div class="grid"><div class="glass card"><h2>Tekshiruv va Telegram</h2><div class="body">
+        <label>Server tekshiruv endpointi<input id="endpoint" placeholder="https://example.com/check?username={username}" /><span class="hint">JSON: {"status":"free|sale|taken","note":"..."}. Bo'sh bo'lsa demo tasnif ishlaydi.</span></label>
+        <div class="row"><label>Bot token<input id="botToken" type="password" placeholder="123456:ABC..." /></label><label>Chat ID<input id="chatId" placeholder="6961100352" /></label></div>
+        <button id="sendBtn" class="btn">TXT faylni Telegramga yuborish</button>
+      </div></div><div class="glass card"><h2>Ilovaga tayyorlash</h2><div class="body"><p class="small">Bu fayl bitta `index.html`: Android WebView, Capacitor, Cordova yoki Telegram Web App ichiga qo'yishga tayyor. Maxfiy API ID/API HASH va bot tokenlarni frontendga doimiy yozmang; ularni backendda saqlang.</p><div class="chips"><span class="chip">Responsive</span><span class="chip">PWA theme-color</span><span class="chip">Mobile bottom-nav</span><span class="chip">Glass UI</span></div></div></div></div>
+    </section>
+  </main>
+
+  <nav class="bottomnav"><button class="active" data-screen="home">🏠<br>Asosiy</button><button data-screen="generator">⚙️<br>Generator</button><button data-screen="results">📄<br>Natija</button><button data-screen="settings">🔐<br>Sozlama</button></nav>
+
+  <script>
+    document.addEventListener('contextmenu',e=>e.preventDefault());
+    const $=id=>document.getElementById(id);let results=[];let shouldStop=false;
+    const screens=[...document.querySelectorAll('.screen')],tabs=[...document.querySelectorAll('[data-screen]')];
+    function showScreen(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));tabs.forEach(t=>t.classList.toggle('active',t.dataset.screen===id));}
+    tabs.forEach(t=>t.addEventListener('click',()=>showScreen(t.dataset.screen)));document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.jump)));
+    function uniqueChars(v,rx){return [...new Set(v.toLowerCase().replace(/\s/g,'').split(''))].join('').replace(rx,'')}function msg(t){$('message').textContent=t}function progress(a,b){$('bar').style.width=b?`${Math.round(a/b*100)}%`:'0%'}
+    function patterns(){const len=Math.max(1,Math.min(8,Number($('length').value)||5));const mode=$('mode').value;if(mode==='custom')return[$('customPattern').value.trim().toUpperCase()];if(mode==='preset')return[$('preset').value];let out=[];for(let l=len;l>=0;l--)out.push('L'.repeat(l)+'D'.repeat(len-l));return out}
+    function* cartesian(pattern,letters,digits,prefix=''){const pools=pattern.split('').map(c=>c==='L'?letters:digits),cur=Array(pattern.length).fill('');function* walk(i){if(i===pools.length){yield prefix+cur.join('');return}for(const ch of pools[i]){cur[i]=ch;yield* walk(i+1)}}yield* walk(0)}
+    function estimate(ps,letters,digits){return ps.reduce((s,p)=>s+p.split('').reduce((a,c)=>a*(c==='L'?letters.length:digits.length),1),0)}
+    function statusText(s){return s==='free'?'1) tekin bo\'sh':s==='sale'?'2) sotuvda bo\'sh':s==='taken'?'3) egasi bor':'tekshirilmagan'}
+    function demoStatus(u){const n=[...u].reduce((a,c)=>a+c.charCodeAt(0),0);if(n%17===0)return{status:'sale',note:'Demo: sotuvda bo\'lishi mumkin'};if(n%5===0)return{status:'taken',note:'Demo: profili bor deb belgilandi'};return{status:'free',note:'Demo: bo\'sh deb belgilandi'}}
+    function render(){const c=s=>results.filter(x=>x.status===s).length;[['total',results.length],['mTotal',results.length],['free',c('free')],['mFree',c('free')],['sale',c('sale')],['mSale',c('sale')],['taken',c('taken')],['mTaken',c('taken')]].forEach(([id,v])=>$(id).textContent=v.toLocaleString());$('tbody').innerHTML=results.slice(0,1000).map((r,i)=>`<tr><td>${i+1}</td><td>@${r.username}</td><td><span class="pill ${r.status}">${statusText(r.status)}</span></td><td>${r.note||''}</td></tr>`).join('');$('txtPreview').value=buildTxt().slice(0,20000)}
+    $('generateBtn').addEventListener('click',async()=>{const letters=uniqueChars($('letters').value,/[^a-z]/g),digits=uniqueChars($('digits').value,/[^0-9]/g),ps=patterns(),prefix=$('prefix').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,''),limit=Number($('limit').value)||10000;if(!letters||!digits||ps.some(p=>!/^[LD]+$/.test(p)))return alert('Alifbo, raqam yoki andoza noto\'g\'ri.');results=[];shouldStop=false;$('stopBtn').disabled=false;const total=estimate(ps,letters,digits);let done=0;msg(`Yaratilmoqda: taxminiy ${total.toLocaleString()} ta. Limit ${limit.toLocaleString()}.`);for(const p of ps){for(const u of cartesian(p,letters,digits,prefix)){if(shouldStop||results.length>=limit)break;results.push({username:u,status:'unknown',note:'Tekshirilmagan'});done++;if(done%500===0){progress(done,Math.min(total,limit));render();await new Promise(r=>setTimeout(r))}}}progress(1,1);$('stopBtn').disabled=true;render();msg(`${results.length.toLocaleString()} ta kombinatsiya tayyor.`)});
+    $('checkBtn').addEventListener('click',async()=>{if(!results.length)return alert('Avval kombinatsiya yarating.');shouldStop=false;$('stopBtn').disabled=false;const endpoint=$('endpoint').value.trim();for(let i=0;i<results.length;i++){if(shouldStop)break;const item=results[i];try{if(endpoint){const res=await fetch(endpoint.replace('{username}',encodeURIComponent(item.username)));const data=await res.json();item.status=['free','sale','taken'].includes(data.status)?data.status:'taken';item.note=data.note||'Server endpoint orqali tekshirildi'}else Object.assign(item,demoStatus(item.username))}catch(e){item.status='taken';item.note=`Tekshiruv xatosi: ${e.message}`}if(i%100===0){progress(i+1,results.length);render();await new Promise(r=>setTimeout(r))}}$('stopBtn').disabled=true;progress(1,1);render();msg('Tekshiruv yakunlandi.')});
+    $('stopBtn').onclick=()=>{shouldStop=true;msg('To\'xtatilmoqda...')};function buildTxt(){if(!results.length)return'';return['free','sale','taken','unknown'].map(s=>{const rows=results.filter(r=>r.status===s).map(r=>`@${r.username} - ${statusText(r.status)} - ${r.note||''}`);return`=== ${statusText(s)} (${rows.length}) ===\n${rows.join('\n')}`}).join('\n\n')}
+    $('downloadBtn').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buildTxt()],{type:'text/plain;charset=utf-8'}));a.download=`telegram-niklar-${new Date().toISOString().slice(0,10)}.txt`;a.click();URL.revokeObjectURL(a.href)};$('copyBtn').onclick=async()=>{await navigator.clipboard.writeText(buildTxt());alert('TXT nusxalandi')};$('clearBtn').onclick=()=>{results=[];render();progress(0,1);msg('Natijalar tozalandi')};
+    $('sendBtn').onclick=async()=>{const token=$('botToken').value.trim(),chatId=$('chatId').value.trim();if(!token||!chatId)return alert('Bot token va Chat ID kiriting.');const f=new FormData();f.append('chat_id',chatId);f.append('document',new Blob([buildTxt()],{type:'text/plain;charset=utf-8'}),'telegram-niklar.txt');const res=await fetch(`https://api.telegram.org/bot${token}/sendDocument`,{method:'POST',body:f}),data=await res.json();if(!data.ok)throw new Error(data.description||'Telegramga yuborilmadi');alert('TXT fayl Telegramga yuborildi.')};render();
+  </script>
+</body>
+</html>
