@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#07111f" />
+  <meta name="application-name" content="Telegram Nick Finder" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Telegram Nik Finder</title>
   <style>
     :root{
@@ -92,6 +95,7 @@
   <nav class="bottomnav"><button class="active" data-screen="home">🏠<br>Asosiy</button><button data-screen="generator">⚙️<br>Generator</button><button data-screen="results">📄<br>Natija</button><button data-screen="settings">🔐<br>Sozlama</button></nav>
 
   <script>
+    document.addEventListener('contextmenu',e=>e.preventDefault());
     const $=id=>document.getElementById(id);let results=[];let shouldStop=false;
     const screens=[...document.querySelectorAll('.screen')],tabs=[...document.querySelectorAll('[data-screen]')];
     function showScreen(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));tabs.forEach(t=>t.classList.toggle('active',t.dataset.screen===id));}
